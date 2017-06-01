@@ -12,7 +12,6 @@ const create_delayer = function() {
 
     res.end = function() {
       const args = arguments;
-      console.log(args)
       timers.setTimeout(function() {
         end.apply(res, args);
       }, time);
