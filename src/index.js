@@ -8,6 +8,7 @@ import mappings from './mappings';
 import props from './props';
 import cache from './cache-middleware';
 import mockproxy from './mock-proxy';
+import delay from './delay-middleware';
 
 var appRoot = join(__dirname, '..');
 
@@ -18,6 +19,7 @@ app.use(logger('dev'));
 app.use(bodyParser.raw(mappings.bodyParserConfig));
 // Setup proxy middleware
 app.use(mappings());
+app.use(delay());
 app.use(props());
 app.use(cache());
 app.use(mockproxy());
