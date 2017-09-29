@@ -1,21 +1,18 @@
 import config from 'config';
-import {shouldIgnore} from './app-utils';
+import {shouldIgnore, getMapping} from './app-utils';
 
 const mappings = config.has('mappings') ? config.get('mappings') : {};
-
 const mapmap = new Map();
-
 Object.keys(mappings).forEach(key => mapmap.set(key, { key, ...mappings[key] }));
 
 const middleware = () => (req, res, next) => {
   if (shouldIgnore(req)) {
     return next();
   }
-  // remove a leading slash if there is any
   const reqUrl = req.url.startsWith('/') ? req.url.substr(1) : req.url;
   const key = reqUrl.split('/')[0];
-  if (mappings.has(key)) {
-    const mapping = mappings.get(key);
+  const mapping = getMapping(req.url);
+  if (mapping) {
     const conf = {
       key: key,
       dir: mapping.dir || key,

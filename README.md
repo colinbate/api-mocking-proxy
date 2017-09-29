@@ -82,6 +82,9 @@ matchHeaders = ["X-UserName"]
 matchProps = ["id"]
 # Create a whitelist of properties (query/body) to base cache on.
 # Or set to false to match no properties. Default is to match all.
+ignorePath = ".*?\/file.*" 
+# Ignores caching for all url containing provided regexp expression.
+# This exemple will ignore all paths with /file in url ex. https://example.org/exmaple/file/test.png
 ignoreProps = ["nonce"]
 # Create a list of properties to ignore when otherwise matching all.
 contentType = "application/json"
