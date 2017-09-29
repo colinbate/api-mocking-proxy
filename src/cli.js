@@ -1,10 +1,8 @@
 /* globals process */
-import minimist from 'minimist';
+import argv from './argv';
 import cacher from './cacher';
 import server from './serve';
 import config from 'config';
-
-const argv = minimist(process.argv.slice(2), {alias: {root: ['r', 'data']}});
 
 if (argv.root) {
   cacher.root = argv.root;
