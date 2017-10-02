@@ -45,6 +45,15 @@ The only configuration you need to provide is a mapping, which maps a folder on 
 host = "https://example.org"
 ```
 
+same example saved as default.json
+```json
+{ "mappings": {
+    "example": {
+      "host": "https://example.org"
+    } 
+  } 
+}
+```
 This is the minimal required configuration. It will map `http://localhost:<port>/example/*` to `https://example.org/*`.
 
 
@@ -172,6 +181,20 @@ Content-Type: application/json
 Date: Thu, 11 Feb 2016 17:24:10 GMT
 
 {"status":"ok"}
+```
+
+
+## CLI
+
+| param            | description                                                                          |
+|------------------|--------------------------------------------------------------------------------------|
+| `root` or `(r)`  | This is the folder where mock files will be saved                                    |
+| `config` or `(c)`| This is the folder where config files are located                                    |
+| `name` or `(n)`  | This is config file name                                                             |
+
+And example:
+```
+npm run start --config "./config_dir" --name "amp_config_file_name" --root "./config_dir/mocks"
 ```
 
 ## Advanced
