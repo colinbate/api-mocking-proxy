@@ -1,6 +1,7 @@
 import {parse} from 'url';
 import querystring from 'querystring';
 import {join} from 'path';
+import config from 'config';
 
 // Utility methods
 function stripSpecialChars (val) {
@@ -61,7 +62,22 @@ function getReqHeaders (req, match) {
 }
 
 export function shouldIgnore ({url}) {
+  const mapping = getMapping(url);
+  if (mapping && mapping.ignorePath && url.match(new RegExp(mapping.ignorePath, 'i'))) {
+    return true;
+  }
   return url === '' || url === '/' || url.startsWith('/__');
+}
+
+export function getMapping (url) {
+  const reqUrl = url.startsWith('/') ? url.substr(1) : url;
+  const key = reqUrl.split('/')[0];
+  const mappings = config.has('mappings') ? config.get('mappings') : {};
+  const mapmap = new Map();
+  Object.keys(mappings).forEach(key => mapmap.set(key, { key, ...mappings[key] }));
+  if (mappings.has(key)) {
+    return mappings.get(key);
+  }
 }
 
 export function resolveMockPath (req, dataRoot) {
