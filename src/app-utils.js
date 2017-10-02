@@ -63,13 +63,13 @@ function getReqHeaders (req, match) {
 
 export function shouldIgnore ({url}) {
   const mapping = getMapping(url);
-  if(mapping && mapping.ignorePath && url.match(new RegExp(mapping.ignorePath, 'i'))) {
+  if (mapping && mapping.ignorePath && url.match(new RegExp(mapping.ignorePath, 'i'))) {
     return true;
   }
   return url === '' || url === '/' || url.startsWith('/__');
 }
 
-export function getMapping(url) {
+export function getMapping (url) {
   const reqUrl = url.startsWith('/') ? url.substr(1) : url;
   const key = reqUrl.split('/')[0];
   const mappings = config.has('mappings') ? config.get('mappings') : {};
