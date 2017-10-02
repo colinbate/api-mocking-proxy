@@ -14,5 +14,4 @@ if (argv.name) {
   process.env.NODE_ENV = argv.name;
 }
 
-
 export default argv;
