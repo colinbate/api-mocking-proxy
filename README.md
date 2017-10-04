@@ -55,6 +55,8 @@ Here is a fully annotated configuration file in TOML showing all of the availabl
 host = "localhost"
 port = 8088
 # These are the default values
+ignoreSSL = false
+# false by default, ignores unsigned cert
 
 [proxy]
 timeout = 5000
