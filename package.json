@@ -15,7 +15,8 @@
     "lint": "semistandard",
     "unit": "mocha",
     "test": "npm run lint",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
