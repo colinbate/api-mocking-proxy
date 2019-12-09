@@ -48,7 +48,8 @@
     "serve-favicon": "^2.3.0",
     "toml": "^2.3.0",
     "touch": "^1.0.0",
-    "type-is": "^1.6.10"
+    "type-is": "^1.6.10",
+    "qs": "latest"
   },
   "devDependencies": {
     "assert": "~1.3.0",

@@ -1,5 +1,5 @@
 import {parse} from 'url';
-import querystring from 'querystring';
+import querystring from 'qs';
 import {join} from 'path';
 
 // Utility methods
