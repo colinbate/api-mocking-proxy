@@ -20,7 +20,7 @@ function matchDeepProps(props, match) {
   function recursion(m) {
     if (match.indexOf(m) > -1) {
       pobj[m] = props[m];
-    } else if (Array.isArray(props[m])) {
+    } else if (Array.isArray(props[m]) || typeof props[m] === 'object' && props[m] !== null) {
       pobj = Object.assign({}, pobj, matchDeepProps(props[m], match));
     } else if (typeof m === 'object' && m !== null) {
       pobj = Object.assign({}, pobj, matchDeepProps(m, match));
