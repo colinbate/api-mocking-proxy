@@ -48,16 +48,16 @@ function getPropsRecursive(req, match, ignore) {
   }
 
   let qs;
-  let props = {};
+  let pobj = {};
 
   if (Array.isArray(match)) {
-    props = matchDeepProps(req.props, match);
+    pobj = matchDeepProps(req.props, match);
   } else if (match !== false) {
-    props = req.props;
+    pobj = req.props;
   }
   if (Array.isArray(ignore)) {
     for (let p of ignore) {
-      delete props[p];
+      delete pobj[p];
     }
   }
   qs = querystring.stringify(pobj);
