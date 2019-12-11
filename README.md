@@ -82,6 +82,8 @@ matchHeaders = ["X-UserName"]
 matchProps = ["id"]
 # Create a whitelist of properties (query/body) to base cache on.
 # Or set to false to match no properties. Default is to match all.
+matchPropsRecursive = false
+# iterate through every object and array in the request boday to find matchProps values
 ignoreProps = ["nonce"]
 # Create a list of properties to ignore when otherwise matching all.
 contentType = "application/json"

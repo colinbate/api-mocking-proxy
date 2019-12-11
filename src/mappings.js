@@ -27,7 +27,8 @@ const middleware = () => (req, res, next) => {
       noproxy: mapping.noproxy,
       nocache: mapping.nocache,
       touchFiles: mapping.touchFiles,
-      delay: mapping.delay
+      delay: mapping.delay,
+      matchPropsRecursive: mapping.matchPropsRecursive
     };
     req.conf = conf;
     req.urlToProxy = reqUrl.replace(key, '');

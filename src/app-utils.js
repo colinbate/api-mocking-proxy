@@ -14,6 +14,57 @@ function getUrlPath (urlParts) {
   return stripSpecialChars((urlParts.pathname || '').replace('/', ''));
 }
 
+function matchDeepProps(props, match) {
+  let pobj = {};
+
+  function recursion(m) {
+    if (match.indexOf(m) > -1) {
+      pobj[m] = props[m];
+    } else if (Array.isArray(props[m])) {
+      pobj = Object.assign({}, pobj, matchDeepProps(props[m], match));
+    } else if (typeof m === 'object' && m !== null) {
+      pobj = Object.assign({}, pobj, matchDeepProps(m, match));
+    }
+  }
+
+  if (Array.isArray(props)) {
+    for (let m = 0; m < props.length; m++) {
+      recursion(props[m])
+    }
+  } else if (typeof props === 'object') {
+    for (let m in props) {
+      if (props.hasOwnProperty(m)) {
+        recursion(m)
+      }
+    }
+  }
+  return pobj;
+}
+
+
+function getPropsRecursive(req, match, ignore) {
+  if (req.props === null) {
+    return '';
+  }
+
+  let qs;
+  let props = {};
+
+  if (Array.isArray(match)) {
+    props = matchDeepProps(req.props, match);
+  } else if (match !== false) {
+    props = req.props;
+  }
+  if (Array.isArray(ignore)) {
+    for (let p of ignore) {
+      delete props[p];
+    }
+  }
+  qs = querystring.stringify(pobj);
+  return stripSpecialChars(qs);
+}
+
+
 function getProps (req, match, ignore) {
   let qs;
   let pobj = {};
@@ -92,7 +143,10 @@ export function resolveMockPath (req, dataRoot) {
     }
 
     // Query string
-    const props = getProps(req, req.conf.matchProps, req.conf.ignoreProps);
+    const props = !req.conf.matchPropsRecursive ?
+      getProps(req, req.conf.matchProps, req.conf.ignoreProps) :
+      getPropsRecursive(req, req.conf.matchProps, req.conf.ignoreProps);
+
     if (props) {
       path = join(path, props);
     }
