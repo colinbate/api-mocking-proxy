@@ -16,5 +16,7 @@ export function read (path) {
 }
 
 export function write (path, content) {
+  console.log("content ", content)
+
   return mkdirpp(dirname(path)).then(() => writep(path, content, {encoding: 'utf8', flag: 'w'}));
 }
