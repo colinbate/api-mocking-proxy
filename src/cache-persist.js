@@ -25,6 +25,7 @@ const parse = input => {
       parts.shift();
     }
 
+    firstCodeCode = parts[0].charCodeAt(0); // ascii
     if (firstCodeCode >= 49 && firstCodeCode <= 53) {
       // Between 1 and 5 inclusive
       res.code = parseInt(parts[0], 10);
