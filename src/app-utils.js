@@ -61,7 +61,13 @@ function getPropsRecursive(req, match, ignore) {
       delete pobj[p];
     }
   }
+
+  console.log("matched ", pobj);
+
   serialized = querystring.stringify(qs.stringify(pobj));
+
+  console.log("serialized ", serialized);
+
   return stripSpecialChars(serialized);
 }
 
