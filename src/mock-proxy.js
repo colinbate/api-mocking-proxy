@@ -22,7 +22,7 @@ const eh = (res) => (err) => errorHandler(res, err);
 const responseHandler = (req, res) => ([retRes, body]) => {
   // payload prepended with text so backwards compatibility checks do not fail
   var data = {
-    payload: 'Original request body :: ' . JSON.stringify(req.props),
+    payload: 'Original request body :: ' + JSON.stringify(req.props),
     code: retRes.statusCode,
     headers: retRes.headers,
     body: body
