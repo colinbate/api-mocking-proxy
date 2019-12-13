@@ -44,6 +44,9 @@ class Cacher {
       return Promise.reject(new Error('Invalid argument: data must be provided!'));
     }
     var mockPath = resolveMockPath(req, this.root);
+
+    console.log("console.log", data);
+
     return file.write(mockPath, stringify(data));
   }
 }

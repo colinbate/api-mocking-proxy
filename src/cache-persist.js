@@ -18,12 +18,15 @@ const parse = input => {
   const parts = input.split(/\r?\n\r?\n/);
 
   if (parts.length) {
-    const firstCodeCode = parts[0].charCodeAt(0);
-    if (firstCodeCode >= 49 && firstCodeCode <= 53) {
-      // Between 1 and 5 inclusive
-      res.code = parseInt(parts[0], 10);
-      parts.shift();
-    }
+    do {
+      let firstCodeCode = parts[0].charCodeAt(0);
+      if (firstCodeCode >= 49 && firstCodeCode <= 53) {   // ascii
+        // Between 1 and 5 inclusive
+        res.code = parseInt(parts[0], 10);
+        parts.shift();
+        break;
+      }
+    } while (parts.shift());  // remove payload if exits, backwards compatible
   }
 
   if (parts.length) {

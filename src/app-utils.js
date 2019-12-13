@@ -1,5 +1,6 @@
 import {parse} from 'url';
-import querystring from 'qs';
+import querystring from 'querystring';
+import qs from 'qs';
 import {join} from 'path';
 
 // Utility methods
@@ -47,7 +48,7 @@ function getPropsRecursive(req, match, ignore) {
     return '';
   }
 
-  let qs;
+  let serialized;
   let pobj = {};
 
   if (Array.isArray(match)) {
@@ -60,8 +61,8 @@ function getPropsRecursive(req, match, ignore) {
       delete pobj[p];
     }
   }
-  qs = querystring.stringify(pobj);
-  return stripSpecialChars(qs);
+  serialized = querystring.stringify(qs.stringify(pobj));
+  return stripSpecialChars(serialized);
 }
 
 
