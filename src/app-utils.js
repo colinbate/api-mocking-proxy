@@ -62,12 +62,7 @@ function getPropsRecursive(req, match, ignore) {
     }
   }
 
-  console.log("matched ", pobj);
-
-  serialized = querystring.stringify(qs.stringify(pobj));
-
-  console.log("serialized ", serialized);
-
+  serialized = qs.stringify(pobj);
   return stripSpecialChars(serialized);
 }
 

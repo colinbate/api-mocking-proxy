@@ -45,8 +45,6 @@ class Cacher {
     }
     var mockPath = resolveMockPath(req, this.root);
 
-    console.log("console.log", data);
-
     return file.write(mockPath, stringify(data));
   }
 }

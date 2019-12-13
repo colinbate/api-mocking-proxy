@@ -18,15 +18,18 @@ const parse = input => {
   const parts = input.split(/\r?\n\r?\n/);
 
   if (parts.length) {
-    do {
-      let firstCodeCode = parts[0].charCodeAt(0);
-      if (firstCodeCode >= 49 && firstCodeCode <= 53) {   // ascii
-        // Between 1 and 5 inclusive
-        res.code = parseInt(parts[0], 10);
-        parts.shift();
-        break;
-      }
-    } while (parts.shift());  // remove payload if exits, backwards compatible
+    let firstCodeCode = parts[0].charCodeAt(0); // ascii
+
+    if (firstCodeCode === 79) {
+      // remove payload if exits, backwards compatible. Exactly letter 'O'
+      parts.shift();
+    }
+
+    if (firstCodeCode >= 49 && firstCodeCode <= 53) {
+      // Between 1 and 5 inclusive
+      res.code = parseInt(parts[0], 10);
+      parts.shift();
+    }
   }
 
   if (parts.length) {
@@ -48,9 +51,15 @@ const parse = input => {
 
 const stringify = input => {
   let results = [];
+
+  if (input.payload) {
+    results.push(input.payload);
+  }
+
   if (input.code) {
     results.push(input.code);
   }
+
   if (input.headers) {
     results.push(Object.keys(input.headers).map(key => `${key}: ${input.headers[key]}`).join('\n'));
   }
@@ -64,7 +73,7 @@ const stringify = input => {
   return result;
 };
 
-export { parse, stringify };
+export {parse, stringify};
 
 /*
 200
