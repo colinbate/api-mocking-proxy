@@ -18,14 +18,15 @@ const parse = input => {
   const parts = input.split(/\r?\n\r?\n/);
 
   if (parts.length) {
-    let firstCodeCode = parts[0].charCodeAt(0); // ascii
-
-    if (firstCodeCode === 79) {
+    let firstCharCode = parts[0].charCodeAt(0); // ascii
+    if (firstCharCode === 79) {
       // remove payload if exits, backwards compatible. Exactly letter 'O'
       parts.shift();
     }
+  }
 
-    firstCodeCode = parts[0].charCodeAt(0); // ascii
+  if (parts.length) {
+    let firstCodeCode = parts[0].charCodeAt(0); // ascii
     if (firstCodeCode >= 49 && firstCodeCode <= 53) {
       // Between 1 and 5 inclusive
       res.code = parseInt(parts[0], 10);
