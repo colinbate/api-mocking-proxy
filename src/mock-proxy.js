@@ -45,7 +45,7 @@ const middleware = () => (req, res, next) => {
     res.end();
     return;
   }
-  const url = req.conf.host + req.urlToProxy;
+  const url = req.conf.host.replace(/\/+$/, "") + "/" + req.urlToProxy.replace(/^\/+/, "");
 
   const method = req.method.toLowerCase();
   const urlConf = {url, timeout, headers: req.headers};
