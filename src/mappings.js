@@ -1,6 +1,5 @@
 import config from 'config';
 import {shouldIgnore} from './app-utils';
-import {temporarilyDisableSSLSecurity} from "./cli";
 
 const mappings = config.has('mappings') ? config.get('mappings') : {};
 
@@ -34,8 +33,9 @@ const middleware = () => (req, res, next) => {
     };
     req.conf = conf;
     req.urlToProxy = reqUrl.replace(key, '');
+    req.secureEnabled = conf.secure;
 
-    return temporarilyDisableSSLSecurity(conf.secure, next);
+    return next();
   }
   console.log('WARN: No mapping found for ' + key);
   res.writeHead(404, {'Content-Type': 'text/plain'});
