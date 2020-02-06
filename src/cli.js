@@ -4,6 +4,8 @@ import cacher from './cacher';
 import server from './serve';
 import config from 'config';
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 const argv = minimist(process.argv.slice(2), {alias: {root: ['r', 'data']}});
 
 if (argv.root) {

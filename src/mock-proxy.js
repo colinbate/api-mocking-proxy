@@ -28,10 +28,15 @@ const responseHandler = (req, res) => ([retRes, body]) => {
     body: body
   };
 
+  console.log("responseHandler no res yet?");
+
   cacher.set(req, data).then(() => passthru(res, data), eh(res));
 };
 
 const middleware = () => (req, res, next) => {
+
+  console.log("1st response in middleware");
+
   if (shouldIgnore(req)) {
     return next();
   }
@@ -41,6 +46,7 @@ const middleware = () => (req, res, next) => {
     return;
   }
   const url = req.conf.host + req.urlToProxy;
+
   const method = req.method.toLowerCase();
   const urlConf = {url, timeout, headers: req.headers};
   if (urlConf.headers['accept-encoding'] && urlConf.headers['accept-encoding'] === 'gzip') {
@@ -53,6 +59,10 @@ const middleware = () => (req, res, next) => {
   if (hasBody(req)) {
     urlConf.body = req.body;
   }
+
+  console.log("urlConf", urlConf);
+
+  // This fetches the request then passes data to response handler
   requestp[method](urlConf).then(responseHandler(req, res));
 };
 
