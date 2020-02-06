@@ -19,9 +19,9 @@ export const temporarilyDisableSSLSecurity = async function(secureBool, next) {
   if (secureBool) {
     return next();
   }
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
   const returnResult = await next();
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "1";
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
   return returnResult;
 };
 

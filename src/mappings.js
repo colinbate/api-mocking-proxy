@@ -29,7 +29,7 @@ const middleware = () => (req, res, next) => {
       touchFiles: mapping.touchFiles,
       delay: mapping.delay,
       matchPropsRecursive: mapping.matchPropsRecursive || false,
-      secure: mapping.secure || true,
+      secure: mapping.hasOwnProperty('secure') ? mapping.secure : true,
     };
     req.conf = conf;
     req.urlToProxy = reqUrl.replace(key, '');

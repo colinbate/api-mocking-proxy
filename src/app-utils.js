@@ -154,9 +154,7 @@ export function resolveMockPath (req, dataRoot) {
     }
   }
 
-  path = join(dataRoot, path + '.mock');
-  console.log(path);
-  return path;
+  return join(dataRoot, path + '.mock');
 }
 
 export function passthru (res, options) {
