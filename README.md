@@ -79,6 +79,8 @@ matchHeaders = ["X-UserName"]
 # If you set to true it will match them all. Default is to ignore headers.
 # If you prefix a header with @ it will match based on presence of the header
 # and not the value of it.
+secure = true
+# enable and disable ssl security validations for given mapping
 matchProps = ["id"]
 # Create a whitelist of properties (query/body) to base cache on.
 # Or set to false to match no properties. Default is to match all.
@@ -118,14 +120,15 @@ When AMP receives a request, it maps information from that request into a filena
 <dataRoot>/<mappingDir>/<method>/<matchedHeaders*>/<urlPath>--<queryParams>.mock
 ```
 
-| Part             | Note                                                                                 |
-|------------------|--------------------------------------------------------------------------------------|
-| `dataRoot`       | This is the folder set in the configuration, or `data` by default                    |
-| `mappingDir`     | This is also a configurable value, usually the same as the base path for the mapping |
-| `method`         | The HTTP method of the request (GET, POST, PUT, etc)                                 |
-| `matchedHeaders` | If `matchHeaders` is configured, will be a folder for each header-value combination  |
-| `urlPath`        | The path of the URL                                                                  |
-| `queryParams`    | A combination of query string parameters and body parameters (for POST, PUT)         |
+| Part                   | Note                                                                                 |
+|------------------------|--------------------------------------------------------------------------------------|
+| `dataRoot`             | This is the folder set in the configuration, or `data` by default                    |
+| `mappingDir`           | This is also a configurable value, usually the same as the base path for the mapping |
+| `method`               | The HTTP method of the request (GET, POST, PUT, etc)                                 |
+| `matchedHeaders`       | If `matchHeaders` is configured, will be a folder for each header-value combination  |
+| `urlPath`              | The path of the URL                                                                  |
+| `queryParams`          | A combination of query string parameters and body parameters (for POST, PUT)         |
+| `matchPropsRecursive`  | Match deeply nested body parameters or the full query if no queryParams provided     |
 
 An example is probably best.
 
@@ -166,6 +169,8 @@ In general the format is the status code, blank line, headers (one per line), bl
 And example might be:
 
 ```
+Original request body :: {}
+
 200
 
 Connection: Keep-Alive
