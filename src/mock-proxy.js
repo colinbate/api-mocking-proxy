@@ -27,16 +27,10 @@ const responseHandler = (req, res) => ([retRes, body]) => {
     headers: retRes.headers,
     body: body
   };
-
-  console.log("responseHandler no res yet?");
-
   cacher.set(req, data).then(() => passthru(res, data), eh(res));
 };
 
 const middleware = () => (req, res, next) => {
-
-  console.log("1st response in middleware");
-
   if (shouldIgnore(req)) {
     return next();
   }
