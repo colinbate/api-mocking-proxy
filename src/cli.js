@@ -15,13 +15,13 @@ if (!config.has('mappings')) {
   process.exit(0);
 }
 
-export const temporarilyDisableSSLSecurity = function (secureBool, next) {
+export const temporarilyDisableSSLSecurity = async function(secureBool, next) {
   if (secureBool) {
     return next();
   }
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-  const returnResult = next();
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "1";
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+  const returnResult = await next();
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
   return returnResult;
 };
 

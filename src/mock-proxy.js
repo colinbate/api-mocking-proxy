@@ -4,6 +4,7 @@ import { hasBody } from 'type-is';
 import config from 'config';
 import cacher from './cacher';
 import {passthru, errorHandler, shouldIgnore} from './app-utils';
+import {temporarilyDisableSSLSecurity} from "./cli";
 
 const proxyConfig = config.has('proxy') ? config.get('proxy') : {};
 const timeout = proxyConfig.timeout || 5000;
@@ -57,7 +58,7 @@ const middleware = () => (req, res, next) => {
   console.log("urlConf", urlConf);
 
   // This fetches the request then passes data to response handler
-  requestp[method](urlConf).then(responseHandler(req, res));
+  temporarilyDisableSSLSecurity(req.secureEnabled, () => requestp[method](urlConf)).then(responseHandler(req, res));
 };
 
 export default middleware;
