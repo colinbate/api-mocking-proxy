@@ -27,10 +27,14 @@ const middleware = () => (req, res, next) => {
       noproxy: mapping.noproxy,
       nocache: mapping.nocache,
       touchFiles: mapping.touchFiles,
-      delay: mapping.delay
+      delay: mapping.delay,
+      matchPropsRecursive: mapping.matchPropsRecursive || false,
+      secure: mapping.hasOwnProperty('secure') ? mapping.secure : true,
     };
     req.conf = conf;
     req.urlToProxy = reqUrl.replace(key, '');
+    req.secureEnabled = conf.secure;
+
     return next();
   }
   console.log('WARN: No mapping found for ' + key);

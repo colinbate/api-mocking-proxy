@@ -4,6 +4,7 @@ import { hasBody } from 'type-is';
 import config from 'config';
 import cacher from './cacher';
 import {passthru, errorHandler, shouldIgnore} from './app-utils';
+import {temporarilyDisableSSLSecurity} from "./cli";
 
 const proxyConfig = config.has('proxy') ? config.get('proxy') : {};
 const timeout = proxyConfig.timeout || 5000;
@@ -20,12 +21,13 @@ const requestp = pify(request, {multiArgs: true});
 const eh = (res) => (err) => errorHandler(res, err);
 
 const responseHandler = (req, res) => ([retRes, body]) => {
+  // payload prepended with text so backwards compatibility checks do not fail
   var data = {
+    payload: 'Original request body :: ' + JSON.stringify(req.props),
     code: retRes.statusCode,
     headers: retRes.headers,
     body: body
   };
-
   cacher.set(req, data).then(() => passthru(res, data), eh(res));
 };
 
@@ -38,7 +40,8 @@ const middleware = () => (req, res, next) => {
     res.end();
     return;
   }
-  const url = req.conf.host + req.urlToProxy;
+  const url = req.conf.host.replace(/\/+$/, "") + "/" + req.urlToProxy.replace(/^\/+/, "");
+
   const method = req.method.toLowerCase();
   const urlConf = {url, timeout, headers: req.headers};
   if (urlConf.headers['accept-encoding'] && urlConf.headers['accept-encoding'] === 'gzip') {
@@ -51,7 +54,11 @@ const middleware = () => (req, res, next) => {
   if (hasBody(req)) {
     urlConf.body = req.body;
   }
-  requestp[method](urlConf).then(responseHandler(req, res));
+
+  console.log("urlConf", urlConf);
+
+  // This fetches the request then passes data to response handler
+  temporarilyDisableSSLSecurity(req.secureEnabled, () => requestp[method](urlConf)).then(responseHandler(req, res));
 };
 
 export default middleware;
